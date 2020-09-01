@@ -4,6 +4,7 @@ Visual Studio Code language support for openEHR Archetype Query Language (AQL).
 
 ## Features
 
+* Language support with file extension association (\*.aql)
 * Syntax highlighting
 
 ## Contributing
