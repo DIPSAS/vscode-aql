@@ -1,0 +1,25 @@
+{
+    "name": "aql",
+    "displayName": "AQL Language Support",
+    "description": "Visual Studio Code language support for openEHR Archetype Query Language (AQL)",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.48.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "aql",
+            "aliases": ["Archetype Query Language"],
+            "extensions": ["aql"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "aql",
+            "scopeName": "source.aql",
+            "path": "./syntaxes/aql.tmLanguage.json"
+        }]
+    }
+}

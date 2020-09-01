@@ -1,0 +1,32 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "aql",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.aql",
+				"match": "\\b(select|as|from|top|distinct|count|min|max|avg|where|and|or|by|order|asc|desc|ascending|descending|offset|limit|fetch|contains|not|exists|matches|order|true|false|all_versions|latest_version)\\b"
+			}]
+		},
+		"strings": {
+			"name": "string.quoted.double.aql",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.aql",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.aql"
+}
