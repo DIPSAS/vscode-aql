@@ -9,6 +9,12 @@
     "categories": [
         "Programming Languages"
     ],
+    "keywords": [
+		"AQL",
+		"Archetype Query Language",
+		"openEHR",
+		"DIPS"
+	],
     "contributes": {
         "languages": [{
             "id": "aql",
