@@ -1,0 +1,123 @@
+select                                                                                  -- Select clause
+   o/data[at0001]/.../items[at0004]/value AS systolic,                                  -- Identified path with alias
+   o/data[at0001]/.../items[at0005]/value AS diastolic,
+FROM                                                                                    -- From clause
+   EHR[ehr_id=$ehrId]                                                                   -- RM class expression
+      CONTAINS                                                                          -- containment
+         VERSIONED_OBJECT vo 
+      CONTAINS 
+         VERSION[all_versions] 
+      CONTAINS
+         COMPOSITION c                                                                  -- RM class expression
+                  [openEHR-EHR-COMPOSITION.encounter.v1 and name/value='encounter']     -- archetype predicate
+      CONTAINS
+         OBSERVATION o [openEHR-EHR-OBSERVATION.blood_pressure.v1]
+WHERE                                                                                   -- Where clause
+   o/data[at0001]/.../items[at0004]/value/value >= 140 OR                               -- value comparison
+   o/data[at0001]/.../items[at0005]/value/value >= 90 or
+
+/* -------------------------------------------------------------------------------- */
+
+SELECT
+   e/ehr_id/value
+FROM
+   EHR e
+      CONTAINS COMPOSITION c[openEHR-EHR-COMPOSITION.referral.v1]
+WHERE
+   c/archetype_details/template_id/value = $foo
+
+/* -------------------------------------------------------------------------------- */
+
+SELECT
+   o/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude,
+   o/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude
+FROM
+   EHR [ehr_id/value="1234"]
+      CONTAINS COMPOSITION [openEHR-EHR-COMPOSITION.encounter.v1]
+         CONTAINS OBSERVATION o [openEHR-EHR-OBSERVATION.blood_pressure.v1]
+WHERE
+   o/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude >= 140 OR
+   o/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude >= 90
+
+/* -------------------------------------------------------------------------------- */
+
+SELECT
+   o/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude,
+   o/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude
+FROM EHR [ehr_id/value='1234']
+   CONTAINS COMPOSITION c [openEHR-EHR-COMPOSITION.encounter.v1]
+      CONTAINS OBSERVATION o [openEHR-EHR-OBSERVATION.blood_pressure.v1]
+
+/* -------------------------------------------------------------------------------- */
+
+SELECT
+   o/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude,
+   o/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude
+FROM EHR e
+   CONTAINS COMPOSITION c
+      CONTAINS OBSERVATION o
+WHERE
+   e/ehr_id/value = '1234' AND
+   c/archetype_node_id = 'openEHR-EHR-COMPOSITION.encounter.v1' AND
+   o/archetype_node_id = 'openEHR-EHR-OBSERVATION.blood_pressure.v1'
+
+/* -------------------------------------------------------------------------------- */
+
+SELECT
+   o/data[at0002]/events[at0003]/data/items[at0015]/items[at0018]/name
+FROM
+   EHR [uid=$ehrUid]
+      CONTAINS Composition c
+         CONTAINS Observation o[openEHR-EHR-OBSERVATION.microbiology.v1]
+WHERE
+   o/data[at0002]/events[at0003]/data/items[at0015]/items[at0018]/items[at0019]/items[at0021]/name/defining_code/code_string matches {'18919-1', '18961-3', '19000-9'}
+
+/* -------------------------------------------------------------------------------- */
+
+SELECT
+   e/ehr_status/subject/external_ref/id/value, diagnosis/data/items[at0002.1]/value
+FROM
+   EHR e
+      CONTAINS Composition c[openEHR-EHR-COMPOSITION.problem_list.v1]
+         CONTAINS Evaluation diagnosis[openEHR-EHR-EVALUATION.problem-diagnosis.v1]
+WHERE
+   c/name/value='Current Problems' AND
+   diagnosis/data/items[at0002.1]/value/defining_code matches { terminology://snomed-ct/hierarchy?rootConceptId=50043002 }   
+
+/* -------------------------------------------------------------------------------- */
+
+SELECT
+   e/ehr_id/value
+FROM
+   EHR e
+      CONTAINS COMPOSITION c[openEHR-EHR-COMPOSITION.administrative_encounter.v1]
+         CONTAINS ADMIN_ENTRY admission[openEHR-EHR-ADMIN_ENTRY.admission.v1]
+WHERE
+   NOT (EXISTS c/content[openEHR-EHR-ADMIN_ENTRY.discharge.v1] AND
+   e/ehr_status/subject/external_ref/namespace = 'CEC')
+
+/* -------------------------------------------------------------------------------- */
+
+SELECT
+   e/ehr_id/value
+FROM
+   EHR e
+      CONTAINS COMPOSITION c[openEHR-EHR-COMPOSITION.administrative_encounter.v1]
+         CONTAINS ADMIN_ENTRY admission[openEHR-EHR-ADMIN_ENTRY.admission.v1]
+WHERE
+   NOT EXISTS c/content[openEHR-EHR-ADMIN_ENTRY.discharge.v1] OR
+   e/ehr_status/subject/external_ref/namespace != 'CEC'
+
+/* -------------------------------------------------------------------------------- */
+
+SELECT
+   e/ehr_id/value
+FROM
+   EHR e
+      CONTAINS COMPOSITION c[openEHR-EHR-COMPOSITION.administrative_encounter.v1]
+         CONTAINS ADMIN_ENTRY admission[openEHR-EHR-ADMIN_ENTRY.admission.v1]
+WHERE
+   NOT EXISTS c/content[openEHR-EHR-ADMIN_ENTRY.discharge.v1]      
+
+/* -------------------------------------------------------------------------------- */
+

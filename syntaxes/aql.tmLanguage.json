@@ -6,27 +6,87 @@
 			"include": "#keywords"
 		},
 		{
+			"include": "#referenceModelClasses"
+		},
+		{
+			"include": "#archetypeNodeId"
+		},
+		{
 			"include": "#strings"
+		},
+		{
+			"include": "#comment"
 		}
 	],
 	"repository": {
 		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.aql",
-				"match": "\\b(select|as|from|top|distinct|count|min|max|avg|where|and|or|by|order|asc|desc|ascending|descending|offset|limit|fetch|contains|not|exists|matches|order|true|false|all_versions|latest_version)\\b"
-			}]
+			"name": "keyword.control.aql",
+			"match": "(?i)\\b(select|as|from|top|distinct|count|min|max|avg|where|and|or|by|order|asc|desc|ascending|descending|offset|limit|fetch|contains|not|exists|matches|order|true|false|all_versions|latest_version)\\b"
+	    },
+		"referenceModelClasses": {
+			"name": "entity.name.class.aql",
+			"match": "(?i)\\b(version|versioned_object|versioned_composition|versioned_folder|versioned_ehr_status|ehr|composition|observation|evaluation|action|instruction|admin_entry|cluster|event|point_event|interval_event|section|ism_transition|activity|instruction_details)\\b"
 		},
+		"archetypeNodeId": {
+			"match": "\\b(([a][t][0-9]+([\\.][0-9]+)?)|([a-zA-Z][a-zA-Z0-9_]+(-[a-zA-Z][a-zA-Z0-9_]+){2}\\.[a-zA-Z][a-zA-Z0-9_]+(-[azA-Z][a-zA-Z0-9_]+)*\\.v[0-9][0-9]*))\\b",
+			"name": "constant.language.aql"
+		  },
 		"strings": {
 			"name": "string.quoted.double.aql",
-			"begin": "\"",
-			"end": "\"",
+			"begin": "[\"|']",
+			"end": "[\"|']",
 			"patterns": [
 				{
 					"name": "constant.character.escape.aql",
 					"match": "\\\\."
 				}
 			]
-		}
+		},
+		"comment": {
+            "patterns": [
+                {
+                    "begin": "(^[ \\t]+)?(?=--)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.whitespace.comment.leading.aql"
+                        }
+                    },
+                    "end": "(?!\\G)",
+                    "patterns": [
+                        {
+                            "begin": "--",
+                            "beginCaptures": {
+                                "0": {
+                                    "name": "punctuation.definition.comment.aql"
+                                }
+                            },
+                            "end": "\\n",
+                            "name": "comment.line.double-dash.aql"
+                        }
+                    ]
+                },
+                {
+                    "begin": "(^[ \\t]+)?(?=#)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.whitespace.comment.leading.aql"
+                        }
+                    },
+                    "end": "(?!\\G)",
+                    "patterns": []
+                },
+                {
+                    "begin": "/\\*",
+                    "captures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.aql"
+                        }
+                    },
+                    "end": "\\*/",
+                    "name": "comment.block.c"
+                }
+            ]
+        }
 	},
 	"scopeName": "source.aql"
 }
