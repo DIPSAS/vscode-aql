@@ -1,8 +1,9 @@
 {
     "name": "aql",
-    "displayName": "AQL Language Support",
+    "displayName": "openEHR AQL Language Support",
     "description": "Visual Studio Code language support for openEHR Archetype Query Language (AQL)",
-    "version": "0.9.0",
+    "icon": "images/icon.png",
+    "version": "0.9.1",
 		"publisher": "DIPSAS",
 		"repository":"https://github.com/DIPSAS/vscode-aql",
     "engines": {
