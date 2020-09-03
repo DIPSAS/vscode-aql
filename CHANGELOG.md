@@ -2,8 +2,5 @@
 
 All notable changes to the "aql" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
+## [0.9.0] (2020-09-03)
 - Initial release

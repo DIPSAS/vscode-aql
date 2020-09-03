@@ -2,7 +2,7 @@
     "name": "aql",
     "displayName": "AQL Language Support",
     "description": "Visual Studio Code language support for openEHR Archetype Query Language (AQL)",
-    "version": "0.0.1",
+    "version": "0.9.0",
     "engines": {
         "vscode": "^1.48.0"
     },
